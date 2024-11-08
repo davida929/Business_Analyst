@@ -1,0 +1,55 @@
+# Use root/example as user/password credentials
+version: '3.8'
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongodb_server
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/db/data 
+  
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: redis_data_base 
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+  
+  cassandra:
+    image: cassandra
+    container_name: cassandra_database 
+    restart: always
+    environment:
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0 
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+  
+  neo4j:
+    image: neo4j
+    container_name: neo4j_server
+    restart: always 
+    environment:
+      - NEO4J_AUTH=neo4j/password
+    ports:
+      - "7474:7474" 
+      - "7687:7687" 
+    volumes:
+      - neoj_data:/var/lib/neo4j/data
+
+volumes:
+  mongodb: 
+  redis_data:
+  cassandra_data:
+  neoj_data:
+
